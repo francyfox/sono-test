@@ -2,9 +2,10 @@
 import type { Ref } from 'vue';
 import type { IGeoLocation } from '~/module/weather-widget/geo-search/geo-search.type';
 import { useForecastStore } from '~/stores/forecast';
+import { errorHandler } from '~/module/api';
 
 const store = useForecastStore();
-const { fetchGeoLocation } = store;
+const {fetchGeoLocation} = store;
 
 const emit = defineEmits(['onLocationSelect']);
 
@@ -13,13 +14,18 @@ const autoComplete: Ref<IGeoLocation[]> = ref([]);
 const showAutoComplete: Ref<boolean> = ref(false);
 const onSubmit = async (e: Event) => {
   e.preventDefault();
-  autoComplete.value = await fetchGeoLocation(inputValue.value, 5);
-  showAutoComplete.value = autoComplete.value.length > 0;
+
+  try {
+    autoComplete.value = await fetchGeoLocation(inputValue.value, 5);
+    showAutoComplete.value = autoComplete.value.length > 0;
+  } catch (error: Error | any) {
+    errorHandler(error, 'геолокации');
+  }
 };
 const selectAutoCompleteItem = (item: IGeoLocation) => {
   autoComplete.value = [item];
   showAutoComplete.value = false;
-  inputValue.value = `${item.local_names?.ru || item.name}, ${item.country}`;
+  inputValue.value = `${ item.local_names?.ru || item.name }, ${ item.country }`;
 
   emit('onLocationSelect', item);
 };
@@ -36,7 +42,7 @@ const selectAutoCompleteItem = (item: IGeoLocation) => {
              placeholder="Название города"
              minlength="3"
              required
-             class=":uno: bg-gray-800/30 border-0 outline-none focus:bg-gray-800/50 rounded-md transition-colors px-4 py-2"
+             class=":uno: bg-gray-800/30 border-0 outline-none focus:bg-gray-800/50 rounded-md shadow-md transition-colors px-4 py-2"
       >
 
       <ul v-if="showAutoComplete"
@@ -55,7 +61,7 @@ const selectAutoCompleteItem = (item: IGeoLocation) => {
     </div>
 
     <button type="submit"
-            class=":uno: flex items-center bg-indigo-300/30 border-0 outline-none hover:bg-indigo-200/50 rounded-md transition-colors gap-2 px-2"
+            class=":uno: flex items-center bg-indigo-300/30 border-0 outline-none hover:bg-indigo-200/50 rounded-md shadow-md transition-colors gap-2 px-2"
     >
       <Icon name="material-symbols:search"/>
       Найти

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import type { IWeatherDayProps } from '~/module/weather-widget/weather-day/weather-day.type';
+import type { IWeatherDayProps } from '~/module/weather-widget/weather-day/weather-day.type';
 
-  const props = defineProps<IWeatherDayProps>();
-  const urlWeatherIcon = (icon: string, size: number) => `https://openweathermap.org/img/wn/${icon}@${size.toString()}x.png`;
-  const iconMain = props.data.weather[0];
+const props = defineProps<IWeatherDayProps>();
+const urlWeatherIcon = (icon: string, size: number) => `https://openweathermap.org/img/wn/${ icon }@${ size.toString() }x.png`;
+const iconMain = props.data.weather[0];
 </script>
 
 <template>
@@ -31,6 +31,14 @@
         </span>
         <span>
           {{ data.wind.speed }} км/ч
+        </span>
+      </li>
+      <li>
+        <span class="font-bold">
+          Влажность:
+        </span>
+        <span>
+          {{ data.main.humidity }} %
         </span>
       </li>
       <li>
