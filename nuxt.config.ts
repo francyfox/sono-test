@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     ['@nuxtjs/google-fonts', {
       download: true,
+      'JetBrains+Mono': true,
     }],
     ['@pinia/nuxt', { storesDirs: ['./stores/**'], }],
     ['nuxt-icon', {

@@ -7,7 +7,7 @@ import WeatherWidget from '~/module/weather-widget/WeatherWidget.vue';
   <section class="h-full w-full bg-gray-700 py-5">
     <div class="container">
       <div class="flex">
-        <WeatherWidget show-days="1"/>
+        <WeatherWidget :show-days="1"/>
       </div>
     </div>
   </section>
@@ -17,5 +17,9 @@ import WeatherWidget from '~/module/weather-widget/WeatherWidget.vue';
   html, body, #__nuxt {
     display: block;
     height: 100%;
+  }
+
+  body {
+    font-family: 'JetBrains Mono', sans-serif;
   }
 </style>
